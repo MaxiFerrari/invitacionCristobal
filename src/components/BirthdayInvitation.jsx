@@ -392,7 +392,7 @@ const BirthdayInvitation = () => {
       {/* Botón de confirmación de asistencia */}
       <section className={styles.confirmSection}>
         <a
-          href="https://wa.me/543815746768?text=Confirmo%20mi%20asistencia%20al%20cumplea%C3%B1o%20de%20Crist%C3%B3bal"
+          href="https://wa.me/543815746768?text=Confirmo%20mi%20asistencia%20al%20cumpleaños%20de%20Cristóbal"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.confirmButton}
