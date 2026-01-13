@@ -1,0 +1,33 @@
+<!-- 
+  Placeholder para el favicon
+  Diseño: Flor de Demogorgon estilo Stranger Things
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+    <defs>
+        <linearGradient id="petalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8b2942" />
+            <stop offset="100%" stop-color="#4a1222" />
+        </linearGradient>
+    </defs>
+
+    <!-- Fondo oscuro -->
+    <circle cx="16" cy="16" r="15" fill="#1a0a0a" />
+
+    <!-- Pétalos simplificados -->
+    <g fill="url(#petalGrad)">
+        <ellipse cx="16" cy="7" rx="3" ry="5" />
+        <ellipse cx="23" cy="10" rx="3" ry="5" transform="rotate(45 23 10)" />
+        <ellipse cx="25" cy="16" rx="5" ry="3" />
+        <ellipse cx="23" cy="22" rx="3" ry="5" transform="rotate(-45 23 22)" />
+        <ellipse cx="16" cy="25" rx="3" ry="5" />
+        <ellipse cx="9" cy="22" rx="3" ry="5" transform="rotate(45 9 22)" />
+        <ellipse cx="7" cy="16" rx="5" ry="3" />
+        <ellipse cx="9" cy="10" rx="3" ry="5" transform="rotate(-45 9 10)" />
+    </g>
+
+    <!-- Centro (boca) -->
+    <circle cx="16" cy="16" r="4" fill="#0a0505" />
+
+    <!-- Glow effect -->
+    <circle cx="16" cy="16" r="14" fill="none" stroke="#ff3355" stroke-width="1" opacity="0.5" />
+</svg>

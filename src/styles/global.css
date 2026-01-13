@@ -1,0 +1,193 @@
+/**
+ * Estilos globales
+ * Paleta Stranger Things: negro, rojo oscuro, bordó, neón
+ * Tipografía retro
+ */
+
+/* Reset y base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fuentes personalizadas estilo Stranger Things */
+@font-face {
+  font-family: "Stranger Things";
+  src: local("ITC Benguiat"), local("Benguiat");
+  font-display: swap;
+}
+
+:root {
+  /* Paleta de colores */
+  --color-black: #0a0a0a;
+  --color-dark: #1a0a0a;
+  --color-dark-red: #2a0f0f;
+  --color-red: #8b2942;
+  --color-red-bright: #ff3355;
+  --color-neon-red: #ff0033;
+  --color-bordo: #6b1d32;
+  --color-neon-pink: #ff4466;
+  --color-cream: #f5f0e8;
+
+  /* Sombras y glows */
+  --glow-red: 0 0 10px var(--color-neon-red), 0 0 20px var(--color-neon-red),
+    0 0 40px var(--color-red);
+  --glow-text: 0 0 5px var(--color-neon-red), 0 0 10px var(--color-neon-red),
+    0 0 20px var(--color-red-bright);
+
+  /* Tipografía */
+  --font-main: "Special Elite", "Courier New", monospace;
+  --font-title: "ITC Benguiat", "Georgia", serif;
+
+  /* Espaciado */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-black);
+  color: var(--color-cream);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Animaciones globales */
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  41% {
+    opacity: 1;
+  }
+  42% {
+    opacity: 0.8;
+  }
+  43% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.3;
+  }
+  46% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  51% {
+    opacity: 0.6;
+  }
+  52% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  81% {
+    opacity: 0.7;
+  }
+  82% {
+    opacity: 1;
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: var(--glow-red);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--color-neon-red), 0 0 40px var(--color-neon-red),
+      0 0 60px var(--color-red);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes particle-rise {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(20px);
+    opacity: 0;
+  }
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-red);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-red-bright);
+}
+
+/* Selección de texto */
+::selection {
+  background: var(--color-red);
+  color: var(--color-cream);
+}
+
+/* Focus visible para accesibilidad */
+:focus-visible {
+  outline: 2px solid var(--color-neon-red);
+  outline-offset: 2px;
+}
