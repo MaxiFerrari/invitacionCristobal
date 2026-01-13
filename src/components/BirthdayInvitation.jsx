@@ -157,24 +157,24 @@ const BirthdayInvitation = () => {
   const [audioStarted, setAudioStarted] = useState(false);
   const { toggleAudio, startAudio } = useAudioContext();
 
-  // Iniciar audio automáticamente al primer click/touch en la página
+  // Iniciar audio automáticamente al hacer scroll
   useEffect(() => {
-    const handleFirstInteraction = () => {
+    const handleFirstScroll = () => {
       if (!audioStarted) {
         startAudio();
         setAudioStarted(true);
         setIsPlaying(true);
-        document.removeEventListener("click", handleFirstInteraction);
-        document.removeEventListener("touchstart", handleFirstInteraction);
+        window.removeEventListener("scroll", handleFirstScroll);
+        window.removeEventListener("touchmove", handleFirstScroll);
       }
     };
 
-    document.addEventListener("click", handleFirstInteraction);
-    document.addEventListener("touchstart", handleFirstInteraction);
+    window.addEventListener("scroll", handleFirstScroll, { passive: true });
+    window.addEventListener("touchmove", handleFirstScroll, { passive: true });
 
     return () => {
-      document.removeEventListener("click", handleFirstInteraction);
-      document.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener("scroll", handleFirstScroll);
+      window.removeEventListener("touchmove", handleFirstScroll);
     };
   }, [audioStarted, startAudio]);
 
