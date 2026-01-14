@@ -8,102 +8,20 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import strangerThingsLogo from "./stranger-things-seeklogo.png";
 import styles from "../styles/BirthdayInvitation.module.css";
 
-// Hook para generar audio sintético estilo Stranger Things
-const useAudioContext = () => {
-  const audioContextRef = useRef(null);
-  const gainNodeRef = useRef(null);
-  const oscillatorsRef = useRef([]);
+// Hook para reproducir música de fondo (Running Up That Hill - Kate Bush)
+const useBackgroundMusic = () => {
+  const audioRef = useRef(null);
   const isPlayingRef = useRef(false);
 
-  const createDarkAmbience = useCallback(() => {
+  const startAudio = useCallback(() => {
     try {
-      if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext ||
-          window.webkitAudioContext)();
+      if (!audioRef.current) {
+        audioRef.current = new Audio("/assets/running-up-that-hill.mp3");
+        audioRef.current.loop = true;
+        audioRef.current.volume = 0.5;
       }
-
-      const ctx = audioContextRef.current;
-
-      // Resumir el contexto si está suspendido (política de navegadores)
-      if (ctx.state === "suspended") {
-        ctx.resume();
-      }
-
-      // Limpiar osciladores previos si existen
-      if (oscillatorsRef.current.length > 0) {
-        oscillatorsRef.current.forEach(({ osc, lfo, noise }) => {
-          try {
-            if (osc) osc.stop();
-            if (lfo) lfo.stop();
-            if (noise) noise.stop();
-          } catch (e) {
-            // Ignorar errores de stop
-          }
-        });
-        oscillatorsRef.current = [];
-      }
-
-      // Master gain - VOLUMEN ALTO
-      gainNodeRef.current = ctx.createGain();
-      gainNodeRef.current.gain.value = 0.8;
-      gainNodeRef.current.connect(ctx.destination);
-
-      // Crear osciladores para ambiente oscuro - frecuencias audibles
-      const frequencies = [80, 120, 160, 220]; // 4 frecuencias
-
-      frequencies.forEach((freq, i) => {
-        const osc = ctx.createOscillator();
-        const oscGain = ctx.createGain();
-
-        osc.type = i % 2 === 0 ? "sine" : "triangle";
-        osc.frequency.value = freq;
-
-        // Ganancia para cada oscilador
-        oscGain.gain.value = 0.3 / (i + 1);
-
-        // LFO para pulso sutil y continuo
-        const lfo = ctx.createOscillator();
-        const lfoGain = ctx.createGain();
-        lfo.type = "sine";
-        lfo.frequency.value = 0.05 + i * 0.02; // Muy lento para efecto continuo
-        lfoGain.gain.value = 0.05;
-        lfo.connect(lfoGain);
-        lfoGain.connect(osc.frequency);
-
-        osc.connect(oscGain);
-        oscGain.connect(gainNodeRef.current);
-
-        osc.start();
-        lfo.start();
-
-        oscillatorsRef.current.push({ osc, lfo, oscGain });
-      });
-
-      // Agregar ruido filtrado para atmósfera (loop infinito)
-      const bufferSize = ctx.sampleRate * 2;
-      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const output = noiseBuffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        output[i] = Math.random() * 2 - 1;
-      }
-
-      const noise = ctx.createBufferSource();
-      noise.buffer = noiseBuffer;
-      noise.loop = true; // Loop infinito
-
-      const noiseFilter = ctx.createBiquadFilter();
-      noiseFilter.type = "lowpass";
-      noiseFilter.frequency.value = 400;
-
-      const noiseGain = ctx.createGain();
-      noiseGain.gain.value = 0.15;
-
-      noise.connect(noiseFilter);
-      noiseFilter.connect(noiseGain);
-      noiseGain.connect(gainNodeRef.current);
-      noise.start();
-
-      oscillatorsRef.current.push({ noise, noiseFilter, noiseGain });
+      audioRef.current.currentTime = 5; // Adelantar 60 segundos (al coro)
+      audioRef.current.play();
       isPlayingRef.current = true;
     } catch (error) {
       console.log("Error iniciando audio:", error);
@@ -113,16 +31,9 @@ const useAudioContext = () => {
 
   const stopAudio = useCallback(() => {
     try {
-      oscillatorsRef.current.forEach(({ osc, lfo, noise }) => {
-        try {
-          if (osc) osc.stop();
-          if (lfo) lfo.stop();
-          if (noise) noise.stop();
-        } catch (e) {
-          // Ignorar errores de stop (ya detenido)
-        }
-      });
-      oscillatorsRef.current = [];
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
       isPlayingRef.current = false;
     } catch (error) {
       console.log("Error deteniendo audio:", error);
@@ -134,28 +45,28 @@ const useAudioContext = () => {
       stopAudio();
       return false;
     } else {
-      createDarkAmbience();
+      startAudio();
       return true;
     }
-  }, [createDarkAmbience, stopAudio]);
+  }, [startAudio, stopAudio]);
 
   useEffect(() => {
     return () => {
-      stopAudio();
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
       }
     };
-  }, [stopAudio]);
+  }, []);
 
-  return { toggleAudio, startAudio: createDarkAmbience };
+  return { toggleAudio, startAudio };
 };
 
 const BirthdayInvitation = () => {
   // Estado para el control del audio - OFF hasta que el usuario interactúe
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
-  const { toggleAudio, startAudio } = useAudioContext();
+  const { toggleAudio, startAudio } = useBackgroundMusic();
 
   // Iniciar audio automáticamente al hacer scroll
   useEffect(() => {
