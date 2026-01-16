@@ -95,6 +95,7 @@ const BirthdayInvitation = () => {
     age: 11,
     date: "Viernes 23 de Enero",
     time: "18:00 a 22:00 hs",
+    rainDate: "Sábado 24 de Enero",
     address: "Godoy Cruz 320, Casa 14",
     city: "San Miguel de Tucumán",
     mapsUrl:
@@ -172,10 +173,10 @@ const BirthdayInvitation = () => {
                   color === "red"
                     ? "#ff3333"
                     : color === "yellow"
-                    ? "#ffcc00"
-                    : color === "blue"
-                    ? "#3399ff"
-                    : "#33cc33",
+                      ? "#ffcc00"
+                      : color === "blue"
+                        ? "#3399ff"
+                        : "#33cc33",
                 "--light-delay": `${i * 0.15}s`,
               }}
             />
@@ -242,10 +243,10 @@ const BirthdayInvitation = () => {
                     color === "red"
                       ? "#ff3333"
                       : color === "yellow"
-                      ? "#ffcc00"
-                      : color === "blue"
-                      ? "#3399ff"
-                      : "#33cc33",
+                        ? "#ffcc00"
+                        : color === "blue"
+                          ? "#3399ff"
+                          : "#33cc33",
                   "--light-delay": `${i * 0.2}s`,
                 }}
               />
@@ -296,6 +297,21 @@ const BirthdayInvitation = () => {
             <span></span>
             <span></span>
             <span></span>
+          </div>
+        </div>
+      </section>
+
+      {/* Aviso de suspensión por lluvia */}
+      <section className={styles.rainSection}>
+        <div className={styles.rainNotice}>
+          <span className={styles.rainIcon}>🌧️</span>
+          <div className={styles.rainInfo}>
+            <span className={styles.rainTitle}>
+              En caso de lluvia se suspende para el
+            </span>
+            <span className={styles.rainDate}>
+              ➡️ {birthdayData.rainDate}, de 18 a 22 hs
+            </span>
           </div>
         </div>
       </section>
